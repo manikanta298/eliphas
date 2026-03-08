@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eliphas Shipping Services Pvt Ltd</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0a0a0a;
+  --navy-mid:#111111;
+  --navy-light:#1e1e1e;
+  --navy-pale:#f0f0f0;
+  --teal:#227791;
+  --teal-light:#2d9ab5;
+  --teal-pale:#e4f3f7;
+  --white:#ffffff;
+  --off-white:#f5f5f5;
+  --gray-100:#eeeeee;
+  --gray-200:#d0d0d0;
+  --gray-400:#888888;
+  --gray-600:#444444;
+  --accent:#227791;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--white);color:var(--navy);overflow-x:hidden}
+
+/* ===== TOP HOVER BAR ===== */
+.top-bar{
+  position:fixed;top:0;left:0;right:0;z-index:600;
+  height:34px;
+  background:linear-gradient(90deg,#0a0a0a 0%,#1a3a5c 50%,#0a0a0a 100%);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  transform:translateY(-100%);
+  transition:transform .5s cubic-bezier(.4,0,.2,1);
+}
+.top-bar.tb-visible{transform:translateY(0)}
+.top-bar::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(34,119,145,.15),transparent);
+  animation:tbShimmer 3s ease-in-out infinite;
+}
+@keyframes tbShimmer{0%,100%{opacity:0}50%{opacity:1}}
+.top-bar-inner{
+  display:flex;align-items:center;gap:1rem;
+  font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(255,255,255,.65);position:relative;z-index:1;
+}
+.tb-dot{width:4px;height:4px;border-radius:50%;background:var(--teal);opacity:.8}
+.tb-link{
+  display:inline-flex;align-items:center;gap:.4rem;
+  color:rgba(255,255,255,.8);text-decoration:none;
+  font-size:.6rem;letter-spacing:.2em;font-weight:500;
+  padding:.2rem .6rem;border:1px solid rgba(255,255,255,.15);border-radius:2px;
+  transition:all .3s;
+}
+.tb-link:hover{color:var(--white);border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.05)}
+.tb-link svg{width:11px;height:11px}
+.top-bar-close{
+  position:absolute;right:1.2rem;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;
+  color:rgba(255,255,255,.4);font-size:.85rem;line-height:1;
+  transition:color .2s;padding:.2rem .4rem;
+}
+.top-bar-close:hover{color:rgba(255,255,255,.8)}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.rv,.rvl,.rvr{opacity:0;transition:opacity .75s ease,transform .75s ease}
+.rv{transform:translateY(40px)}.rvl{transform:translateX(-40px)}.rvr{transform:translateX(40px)}
+.in{opacity:1!important;transform:none!important}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:34px;left:0;right:0;z-index:500;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.4rem 5rem;transition:all .4s;background:transparent;
+}
+nav.sc{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--gray-200);padding:.9rem 5rem;box-shadow:0 4px 24px rgba(0,0,0,.12)}
+nav.bar-gone{top:0}
+nav.sc .logo-name{color:var(--navy)}
+nav.sc .logo-sub{color:var(--accent)}
+nav.sc .nav-ul a{color:var(--gray-600)}
+nav.sc .nav-ul a:hover{color:var(--navy)}
+.logo{display:flex;align-items:center;gap:.9rem;text-decoration:none}
+.logo-img-nav{height:80px;width:auto;object-fit:contain;filter:brightness(0) invert(1);transition:filter .3s}
+nav.sc .logo-img-nav{filter:none}
+.footer-logo{height:60px;width:auto;object-fit:contain}
+.logo-name{font-family:'Playfair Display',serif;font-size:1.45rem;color:var(--white);line-height:1;font-weight:700}
+.logo-sub{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.7);display:block;margin-top:3px}
+.nav-ul{display:flex;gap:2.5rem;list-style:none}
+.nav-ul a{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.8);text-decoration:none;position:relative;transition:color .3s;padding-bottom:4px;font-weight:500}
+.nav-ul a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--navy);transition:width .3s}
+nav.sc .nav-ul a::after{background:var(--navy)}
+.nav-ul a:hover::after{width:100%}
+
+/* Nav right group: login + CTA */
+.nav-right{display:flex;align-items:center;gap:.6rem}
+.nav-login{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.6rem 1.3rem;
+  border:1.5px solid rgba(255,255,255,.28);
+  color:rgba(255,255,255,.85);
+  font-size:.68rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  text-decoration:none;border-radius:4px;transition:all .3s;
+}
+.nav-login svg{width:13px;height:13px;flex-shrink:0}
+.nav-login:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6);transform:translateY(-1px)}
+nav.sc .nav-login{border-color:var(--gray-200);color:var(--gray-600)}
+nav.sc .nav-login:hover{background:var(--gray-100);border-color:var(--gray-400);color:var(--navy)}
+.nav-cta{padding:.7rem 1.8rem;background:var(--navy);color:var(--white);font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;border-radius:4px;transition:all .3s;border:2px solid var(--navy)}
+nav.sc .nav-cta{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.nav-cta:hover{background:var(--navy-light);border-color:var(--navy-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+
+/* ===== HAMBURGER ===== */
+.hamburger{
+  display:none;flex-direction:column;justify-content:center;align-items:flex-end;gap:5px;
+  width:44px;height:44px;background:none;border:none;cursor:pointer;
+  padding:.5rem;border-radius:6px;transition:background .2s;z-index:600;
+}
+.hamburger:hover{background:rgba(255,255,255,.08)}
+nav.sc .hamburger:hover{background:rgba(0,0,0,.05)}
+.hamburger span{
+  display:block;height:1.8px;border-radius:2px;background:var(--white);
+  transition:all .45s cubic-bezier(.4,0,.2,1);
+}
+nav.sc .hamburger span{background:var(--navy)}
+.hamburger span:nth-child(1){width:22px}
+.hamburger span:nth-child(2){width:16px}
+.hamburger span:nth-child(3){width:22px}
+.hamburger.open span:nth-child(1){transform:translateY(6.8px) rotate(45deg);width:22px}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-6.8px) rotate(-45deg);width:22px}
+
+/* ===== MOBILE NAV OVERLAY ===== */
+.mob-overlay{
+  position:fixed;inset:0;z-index:640;
+  background:rgba(0,0,0,0);pointer-events:none;
+  transition:background .5s,backdrop-filter .5s;
+  backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);
+}
+.mob-overlay.open{
+  background:rgba(0,0,0,.52);pointer-events:all;
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+}
+
+/* ===== MOBILE NAV PANEL (3D) ===== */
+.mob-nav{
+  position:fixed;top:0;right:0;bottom:0;z-index:650;
+  width:min(320px,88vw);
+  background:linear-gradient(160deg,#050505 0%,#0d1e2e 55%,#061520 100%);
+  transform:perspective(1200px) translateX(100%) rotateY(10deg);
+  transform-origin:right center;
+  transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.4,0,.2,1),box-shadow .5s;
+  box-shadow:none;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.mob-nav.open{
+  transform:perspective(1200px) translateX(0) rotateY(0deg);
+  box-shadow:-24px 0 80px rgba(0,0,0,.7),-2px 0 0 rgba(34,119,145,.25);
+}
+
+/* glowing left edge */
+.mob-nav::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,transparent 0%,var(--teal) 35%,var(--teal-light) 65%,transparent 100%);
+  opacity:0;transition:opacity .5s .2s;
+}
+.mob-nav.open::before{opacity:1}
+
+/* staggered panel items */
+.mob-nav-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.3rem 1.6rem;
+  border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;
+}
+.mob-nav-logo{height:40px;width:auto;object-fit:contain}
+.mob-nav-x{
+  width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);color:rgba(255,255,255,.6);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;cursor:pointer;transition:all .3s;
+}
+.mob-nav-x:hover{background:rgba(34,119,145,.2);border-color:var(--teal);color:var(--white)}
+
+.mob-links{list-style:none;padding:1.2rem 0;flex:1;overflow-y:auto}
+.mob-links li{
+  opacity:0;transform:translateX(32px) translateZ(-16px);
+  transition:opacity .4s,transform .4s;
+}
+.mob-nav.open .mob-links li{opacity:1;transform:translateX(0) translateZ(0)}
+.mob-nav.open .mob-links li:nth-child(1){transition-delay:.08s}
+.mob-nav.open .mob-links li:nth-child(2){transition-delay:.13s}
+.mob-nav.open .mob-links li:nth-child(3){transition-delay:.18s}
+.mob-nav.open .mob-links li:nth-child(4){transition-delay:.23s}
+.mob-nav.open .mob-links li:nth-child(5){transition-delay:.28s}
+.mob-nav.open .mob-links li:nth-child(6){transition-delay:.33s}
+.mob-links a{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.95rem 1.6rem;
+  font-size:.78rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.mob-links a::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:0;
+  background:linear-gradient(90deg,rgba(34,119,145,.18),transparent);
+  transition:width .35s;
+}
+.mob-links a:hover::before{width:100%}
+.mob-links a:hover{color:var(--white);padding-left:2rem}
+.mob-arr{font-size:.65rem;opacity:0;transform:translateX(-5px);transition:all .3s}
+.mob-links a:hover .mob-arr{opacity:1;transform:translateX(0)}
+
+.mob-ftr{
+  padding:1.2rem 1.6rem;border-top:1px solid rgba(255,255,255,.07);
+  display:flex;flex-direction:column;gap:.7rem;flex-shrink:0;
+}
+.mob-ftr-login{
+  display:flex;align-items:center;justify-content:center;gap:.55rem;
+  padding:.85rem 1.2rem;
+  border:1.5px solid rgba(34,119,145,.45);border-radius:6px;
+  color:var(--teal-light);font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  text-decoration:none;transition:all .3s;
+}
+.mob-ftr-login svg{width:14px;height:14px}
+.mob-ftr-login:hover{background:rgba(34,119,145,.15);border-color:var(--teal);color:var(--white);transform:translateY(-2px)}
+.mob-ftr-cta{
+  display:flex;align-items:center;justify-content:center;
+  padding:.85rem 1.2rem;background:var(--navy);border-radius:6px;
+  color:var(--white);font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  text-decoration:none;transition:all .3s;
+}
+.mob-ftr-cta:hover{background:var(--navy-light);transform:translateY(-2px)}
+
+/* ===== HERO ===== */
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--navy)}
+.hero-img{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=85');background-size:cover;background-position:center 40%;animation:hZoom 14s ease-out forwards;opacity:.35}
+@keyframes hZoom{from{transform:scale(1.06)}to{transform:scale(1)}}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.97) 0%,rgba(0,0,0,.80) 50%,rgba(34,119,145,.30) 100%)}
+.hero-content{position:relative;z-index:2;padding:0 5rem;max-width:900px;padding-top:11rem}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.8rem;font-size:.68rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:2.2rem;opacity:0;animation:fadeUp .8s .4s ease forwards}
+.hero-eyebrow-line{width:32px;height:1px;background:rgba(255,255,255,.4)}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,8vw,7.5rem);line-height:1.12;color:var(--white);opacity:0;animation:fadeUp 1s .6s ease forwards;font-weight:700}
+.hero-h1 em{color:var(--white);font-style:italic;position:relative}
+.hero-h1 em::after{content:'';position:absolute;bottom:-4px;left:0;width:100%;height:3px;background:linear-gradient(90deg,rgba(255,255,255,.8),transparent)}
+.hero-sub{margin-top:2.4rem;max-width:520px;font-size:1rem;font-weight:300;line-height:1.85;color:rgba(255,255,255,.65);opacity:0;animation:fadeUp .9s .85s ease forwards}
+.hero-acts{margin-top:2.8rem;display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp .9s 1.05s ease forwards}
+.btn-primary{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2.2rem;background:var(--white);color:var(--navy);font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:4px;transition:all .3s;border:2px solid var(--white)}
+.btn-primary:hover{background:var(--navy-pale);transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,255,255,.15)}
+.btn-outline{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2.2rem;border:2px solid rgba(255,255,255,.4);color:var(--white);font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:4px;transition:all .3s}
+.btn-outline:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.7);transform:translateY(-3px)}
+.hero-stats{position:absolute;right:5rem;bottom:8rem;z-index:2;display:flex;gap:3rem;opacity:0;animation:fadeIn .9s 1.2s ease forwards}
+.hs{text-align:center}
+.hs-n{font-family:'Playfair Display',serif;font-size:2.8rem;color:var(--white);line-height:1;font-weight:700}
+.hs-l{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.3rem}
+.hs-div{width:1px;background:rgba(255,255,255,.15);align-self:stretch}
+.scroll-cue{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:fadeIn .9s 1.5s ease forwards}
+.scroll-cue span{font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,rgba(255,255,255,.5),transparent);animation:sp 2s infinite}
+@keyframes sp{0%,100%{opacity:.3}50%{opacity:.9}}
+
+/* ===== TICKER ===== */
+.ticker{background:var(--navy);padding:.8rem 0;overflow:hidden;border-top:1px solid rgba(255,255,255,.06)}
+.ticker-t{display:flex;white-space:nowrap;animation:tk 30s linear infinite}
+@keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ti{font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.45);padding:0 2.5rem;display:inline-flex;align-items:center;gap:2rem;font-weight:500}
+.ti::after{content:'·';color:rgba(255,255,255,.25);font-size:.5rem}
+
+/* ===== SECTION HELPERS ===== */
+.section-tag{display:inline-flex;align-items:center;gap:.6rem;font-size:.62rem;letter-spacing:.35em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem;font-weight:600}
+.section-tag::before{content:'';width:24px;height:2px;background:var(--teal);border-radius:2px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,4.5vw,4rem);line-height:1.05;color:var(--navy);font-weight:700}
+.section-title em{font-style:italic;color:var(--teal)}
+.section-title.light{color:var(--white)}
+.section-title.light em{color:rgba(255,255,255,.7)}
+.section-tag.light{color:rgba(255,255,255,.7)}
+.section-tag.light::before{background:rgba(255,255,255,.5)}
+.sbar{width:40px;height:3px;background:var(--navy);margin-top:1.2rem;border-radius:2px}
+.sbar.light{background:rgba(255,255,255,.5)}
+
+/* ===== ABOUT ===== */
+#about{background:#f9f9f9}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;min-height:88vh}
+.about-img-col{position:relative;overflow:hidden}
+.about-img-col img{width:100%;height:100%;object-fit:cover;transition:transform 8s ease;display:block}
+.about-img-col:hover img{transform:scale(1.03)}
+.about-badge{position:absolute;bottom:3rem;left:3rem;z-index:2;background:var(--navy);color:var(--white);padding:1.3rem 1.8rem;border-radius:6px;box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.ab-n{font-family:'Playfair Display',serif;font-size:2rem;line-height:1;font-weight:700}
+.ab-t{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;margin-top:.25rem;color:rgba(255,255,255,.65);font-weight:500}
+.about-cont{padding:7rem 5rem;display:flex;flex-direction:column;justify-content:center;background:var(--off-white)}
+.about-body{font-size:.95rem;font-weight:300;line-height:1.95;color:var(--gray-600);margin:1.8rem 0 2.5rem}
+.si-list{display:flex;flex-direction:column;gap:.7rem}
+.si{display:flex;align-items:flex-start;gap:1.2rem;padding:1.2rem 1.5rem;background:var(--white);border:1px solid var(--gray-200);border-left:3px solid var(--navy);transition:all .3s;border-radius:0 6px 6px 0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.si:hover{transform:translateX(5px);box-shadow:0 4px 20px rgba(0,0,0,.12);border-left-color:var(--teal)}
+.si-icon{width:36px;height:36px;background:var(--navy-pale);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.si-icon svg{width:18px;height:18px}
+.si-t strong{display:block;font-size:.85rem;font-weight:600;color:var(--navy);margin-bottom:.2rem}
+.si-t p{font-size:.78rem;color:var(--gray-400);line-height:1.5}
+.vm-row{display:grid;grid-template-columns:1fr 1fr;background:var(--navy)}
+.vm-card{padding:4rem 5rem;position:relative;overflow:hidden;border-right:1px solid rgba(255,255,255,.07)}
+.vm-card:last-child{border-right:none}
+.vm-card::before{content:'';position:absolute;top:0;left:0;width:60px;height:3px;background:rgba(255,255,255,.2)}
+.vm-card h3{font-family:'Playfair Display',serif;font-size:2rem;color:var(--white);margin-bottom:1.2rem;font-weight:700}
+.vm-card p,.vm-card li{font-size:.9rem;font-weight:300;line-height:1.85;color:rgba(255,255,255,.6)}
+.vm-card ul{list-style:none;display:flex;flex-direction:column;gap:.7rem;margin-top:.8rem}
+.vm-card li{padding-left:1.4rem;position:relative}
+.vm-card li::before{content:'';position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35)}
+
+/* ===== SERVICES ===== */
+#services{background:var(--white);padding:8rem 5rem;position:relative;overflow:hidden}
+.svc-lead{font-size:.95rem;font-weight:300;line-height:1.85;color:var(--gray-600);max-width:540px;margin-top:1.5rem}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.svc-card{position:relative;overflow:hidden;border-radius:10px;min-height:auto;display:flex;flex-direction:column;background:var(--white);border:1px solid #e0e0e0;transition:box-shadow .4s,transform .4s;cursor:default}
+.svc-card:hover{box-shadow:0 20px 60px rgba(0,0,0,.18);transform:translateY(-4px)}
+.svc-bg{position:relative;width:100%;height:200px;overflow:hidden;z-index:0;flex-shrink:0}
+.svc-bg img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;display:block}
+.svc-card:hover .svc-bg img{transform:scale(1.05)}
+.svc-num{position:absolute;top:1.5rem;right:1.8rem;z-index:2;font-family:'Playfair Display',serif;font-size:4.5rem;color:rgba(11,31,58,.06);line-height:1;font-weight:700}
+.svc-body{position:relative;z-index:2;padding:2.5rem;margin-top:0;background:none;flex:1;display:flex;flex-direction:column}
+.svc-icon-box{width:52px;height:52px;background:var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;transition:background .3s}
+.svc-card:hover .svc-icon-box{background:var(--teal)}
+.svc-icon-box svg{width:24px;height:24px}
+.svc-title{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--navy);margin-bottom:.7rem;line-height:1.15;font-weight:700}
+.svc-desc{font-size:.82rem;font-weight:300;color:var(--gray-600);line-height:1.7;margin-bottom:1.2rem}
+.svc-tags{display:flex;flex-wrap:wrap;gap:.4rem;overflow:hidden;max-height:0;opacity:0;transition:max-height .5s ease,opacity .45s ease}
+.svc-card:hover .svc-tags{max-height:200px;opacity:1}
+.svc-tag{font-size:.66rem;letter-spacing:.08em;color:var(--navy);border:1px solid var(--gray-200);background:var(--gray-100);padding:.25rem .7rem;border-radius:3px;font-weight:500}
+.svc-bar{position:absolute;bottom:0;left:0;height:3px;width:0;background:var(--teal);transition:width .5s ease;border-radius:0 0 10px 10px}
+.svc-card:hover .svc-bar{width:100%}
+.civil-sub{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;grid-column:span 3;margin-top:0}
+.civil-sub .svc-card{min-height:280px}
+.materials-strip{margin-top:3rem;padding:1.6rem 2.2rem;background:var(--navy);border-radius:8px;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.ms-label{display:flex;align-items:center;gap:.6rem;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:600;white-space:nowrap;flex-shrink:0}
+.ms-label svg{opacity:.6}
+.ms-items{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
+.ms-item{font-size:.8rem;color:rgba(255,255,255,.85);font-weight:500;padding:.3rem .8rem;background:rgba(255,255,255,.07);border-radius:3px;border:1px solid rgba(255,255,255,.08)}
+.ms-sep{color:rgba(255,255,255,.2);font-size:.7rem}
+.csub-lbl{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem;font-weight:600}
+.csub-lbl::before{content:'';width:16px;height:1.5px;background:var(--accent)}
+.csub-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--navy);margin-bottom:.7rem;font-weight:700}
+.csub-list{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.csub-list li{font-size:.78rem;color:var(--gray-600);padding-left:1.1rem;position:relative;line-height:1.5}
+.csub-list li::before{content:'';position:absolute;left:0;top:.6em;width:5px;height:5px;border-radius:50%;background:var(--navy);opacity:.4}
+
+/* ===== LOCATIONS ===== */
+#locations{background:var(--navy);padding:8rem 5rem}
+.loc-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.loc-body{font-size:.95rem;font-weight:300;line-height:1.9;color:rgba(255,255,255,.6);margin:1.6rem 0 3rem}
+.cov-list{display:flex;flex-direction:column;gap:.85rem}
+.cov-item{display:flex;align-items:flex-start;gap:1.2rem;padding:1.4rem 1.6rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-left:3px solid rgba(255,255,255,.3);transition:all .3s;border-radius:0 6px 6px 0}
+.cov-item:hover{background:rgba(255,255,255,.07);transform:translateX(6px);border-left-color:var(--white)}
+.cov-icon{width:40px;height:40px;background:rgba(255,255,255,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cov-icon svg{width:20px;height:20px}
+.cov-t h4{font-size:.88rem;font-weight:600;color:var(--white);margin-bottom:.2rem}
+.cov-t p{font-size:.76rem;color:rgba(255,255,255,.45);line-height:1.5}
+.map-panel{background:rgba(255,255,255,.04);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);padding:2.5rem;border-radius:10px;position:relative;overflow:hidden}
+.map-panel::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.3),transparent 70%)}
+.map-lbl{font-size:.6rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem;font-weight:500}
+.map-lbl::before{content:'';width:16px;height:1px;background:rgba(255,255,255,.3)}
+.map-svg{width:100%;aspect-ratio:4/3}
+.pr{animation:pR 2.5s ease-out infinite;transform-origin:center}
+@keyframes pR{0%{opacity:.8;r:0}100%{opacity:0;r:18}}
+.map-leg{display:flex;gap:2rem;margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.06)}
+.li{display:flex;align-items:center;gap:.5rem;font-size:.65rem;letter-spacing:.1em;color:rgba(255,255,255,.35)}
+.ld{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.6);flex-shrink:0}
+.ll{width:20px;height:1px;border-top:1px dashed rgba(255,255,255,.35);flex-shrink:0}
+
+/* ===== WHY ===== */
+#why{background:#f9f9f9;padding:8rem 5rem}
+.why-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:6rem;align-items:center;margin-top:4rem}
+.why-img-w{position:relative;padding-bottom:2rem}
+.why-img-m{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:10px;filter:brightness(.9)}
+.why-img-s{position:absolute;bottom:0;right:-2rem;width:55%;aspect-ratio:1;object-fit:cover;border:4px solid var(--off-white);border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.why-badge{position:absolute;top:2rem;left:-1.5rem;background:var(--navy);color:var(--white);padding:1rem 1.4rem;z-index:2;border-radius:6px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.wb-n{font-family:'Playfair Display',serif;font-size:1.8rem;line-height:1;font-weight:700}
+.wb-t{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.7);margin-top:.2rem}
+.why-feats{display:flex;flex-direction:column}
+.why-feat{display:flex;align-items:flex-start;gap:1.5rem;padding:1.6rem 0;border-bottom:1px solid var(--gray-200);transition:all .3s}
+.why-feat:first-child{border-top:1px solid var(--gray-200)}
+.why-feat:hover{padding-left:.6rem}
+.fn2{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--gray-200);line-height:1;flex-shrink:0;width:3rem;transition:color .3s;font-weight:700}
+.why-feat:hover .fn2{color:var(--navy)}
+.ft h4{font-size:.92rem;font-weight:600;color:var(--navy);margin-bottom:.35rem}
+.ft p{font-size:.82rem;font-weight:300;color:var(--gray-400);line-height:1.6}
+
+/* ===== CONTACT ===== */
+#contact{background:var(--navy)}
+.con-inner{position:relative;z-index:2;padding:8rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
+.con-tl{font-size:.9rem;font-weight:300;line-height:1.85;color:rgba(255,255,255,.6);margin-bottom:3rem}
+.con-det{display:flex;flex-direction:column;gap:.85rem;margin-bottom:3rem}
+.ci{display:flex;align-items:flex-start;gap:1.2rem;padding:1.3rem 1.5rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;transition:all .3s}
+.ci:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15)}
+.ci-icon{width:38px;height:38px;background:rgba(255,255,255,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ci-icon svg{width:18px;height:18px}
+.ci-b strong{display:block;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.3rem;font-weight:600}
+.ci-b span{font-size:.88rem;color:rgba(255,255,255,.8)}
+.partner-blk{padding:2rem;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);border-radius:6px}
+.partner-blk p{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--white);line-height:1.3;font-weight:600}
+.partner-blk small{display:block;margin-top:.6rem;font-size:.72rem;color:rgba(255,255,255,.4);letter-spacing:.1em}
+.form-wrap{background:var(--white);border-radius:10px;padding:3.5rem;box-shadow:0 32px 80px rgba(0,0,0,.25)}
+.form-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--navy);margin-bottom:2rem;font-weight:700}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fg{margin-bottom:1.2rem}
+.fg label{display:block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-400);margin-bottom:.5rem;font-weight:600}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--off-white);border:1.5px solid var(--gray-200);color:var(--navy);padding:.85rem 1rem;font-family:'Outfit',sans-serif;font-size:.88rem;outline:none;transition:border-color .3s,background .3s;border-radius:5px}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--gray-400)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--navy);background:var(--white)}
+.fg textarea{resize:vertical;min-height:100px}
+.fg select option{background:var(--white);color:var(--navy)}
+.form-sub{width:100%;padding:1.1rem;background:var(--navy);color:var(--white);font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border:none;cursor:pointer;margin-top:.5rem;border-radius:5px;transition:all .3s}
+.form-sub:hover{background:var(--navy-light);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+
+/* ===== FOOTER ===== */
+footer{background:#050505;border-top:1px solid rgba(255,255,255,.06)}
+.ft-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;padding:5rem 5rem 4rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.fb .fn{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--white);margin-bottom:.3rem;font-weight:700}
+.fb .fs{font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:1.5rem;font-weight:500}
+.fb p{font-size:.82rem;font-weight:300;color:rgba(255,255,255,.35);line-height:1.85}
+.fc h5{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:1.5rem;font-weight:600}
+.fc ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.fc ul a{font-size:.82rem;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s}
+.fc ul a:hover{color:var(--white)}
+.ft-btm{display:flex;justify-content:space-between;align-items:center;padding:1.8rem 5rem;font-size:.72rem;color:rgba(255,255,255,.3)}
+.ft-btm strong{color:rgba(255,255,255,.55)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:960px){
+  nav{padding:1rem 1.5rem}
+  nav.sc{padding:.8rem 1.5rem}
+  .nav-ul,.nav-right{display:none}
+  .hamburger{display:flex}
+  .hero-content{padding:0 1.5rem 5rem;padding-top:9rem}.hero-stats{display:none}
+  .about-grid{grid-template-columns:1fr}.about-img-col{min-height:55vw}.about-cont{padding:4rem 2rem}
+  .vm-row{grid-template-columns:1fr}.vm-card{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);padding:3rem 2rem}
+  #services{padding:5rem 1.5rem}.svc-grid{grid-template-columns:1fr}.civil-sub{grid-template-columns:1fr;grid-column:span 1}
+  #locations{padding:5rem 1.5rem}.loc-inner{grid-template-columns:1fr;gap:3rem}
+  #why{padding:5rem 1.5rem}.why-grid{grid-template-columns:1fr;gap:3rem}.why-img-s{display:none}
+  .con-inner{grid-template-columns:1fr;padding:5rem 1.5rem;gap:3rem}
+  .ft-top{grid-template-columns:1fr 1fr;padding:4rem 2rem 3rem}.ft-btm{padding:1.5rem 2rem;flex-direction:column;gap:.5rem;text-align:center}
+  .form-row{grid-template-columns:1fr}
+  .top-bar-inner .tb-extra{display:none}
+}
+@media(max-width:480px){
+  .ft-top{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP HOVER BAR -->
+<div class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <div class="tb-dot"></div>
+    <span>Multi-Domain Infrastructure &amp; Logistics Excellence</span>
+    <div class="tb-dot tb-extra"></div>
+    <span class="tb-extra">IBR Certified · Safety First · E-2-E Execution</span>
+    <div class="tb-dot"></div>
+    <a href="https://sso.godaddy.com/?realm=pass&app=o365" target="_blank" rel="noopener" class="tb-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Staff Login
+    </a>
+  </div>
+  <button class="top-bar-close" id="tbClose" aria-label="Close bar">&times;</button>
+</div>
+
+<!-- MOBILE OVERLAY -->
+<div class="mob-overlay" id="mobOverlay"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#hero" class="logo">
+    <img src="Rectangle.png" alt="Eliphas Infra Projects Logo" class="logo-img-nav" width="140" height="60">
+  </a>
+  <ul class="nav-ul">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#locations">Locations</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://sso.godaddy.com/?realm=pass&app=o365" target="_blank" rel="noopener" class="nav-login">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Login
+    </a>
+    <a href="#contact" class="nav-cta">Enquire Now</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV PANEL -->
+<div class="mob-nav" id="mobNav" aria-hidden="true">
+  <div class="mob-nav-hdr">
+    <img src="Rectangle.png" alt="Eliphas Logo" class="mob-nav-logo">
+    <button class="mob-nav-x" id="mobNavX" aria-label="Close menu">&#x2715;</button>
+  </div>
+  <ul class="mob-links">
+    <li><a href="#hero" class="mob-lk">Home <span class="mob-arr">›</span></a></li>
+    <li><a href="#about" class="mob-lk">About <span class="mob-arr">›</span></a></li>
+    <li><a href="#services" class="mob-lk">Services <span class="mob-arr">›</span></a></li>
+    <li><a href="#locations" class="mob-lk">Locations <span class="mob-arr">›</span></a></li>
+    <li><a href="#why" class="mob-lk">Why Us <span class="mob-arr">›</span></a></li>
+    <li><a href="#contact" class="mob-lk">Contact <span class="mob-arr">›</span></a></li>
+  </ul>
+  <div class="mob-ftr">
+    <a href="https://sso.godaddy.com/?realm=pass&app=o365" target="_blank" rel="noopener" class="mob-ftr-login">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Login to Portal
+    </a>
+    <a href="#contact" class="mob-ftr-cta mob-lk">Enquire Now →</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-img"></div>
+  <div class="hero-ov"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow"><span class="hero-eyebrow-line"></span>Multi-Domain Service Provider</p>
+    <h1 class="hero-h1">Moving Cargo.<br><em>Building</em> Infrastructure.</h1>
+    <p class="hero-sub">Eliphas Infra Projects Pvt Ltd — delivering operational excellence across Logistics, Mining, Civil Works, Heavy Engineering, Pipe Lines, Roads & Highways, Commercial & Residential, Shipping & Transportation, and Materials Supply.</p>
+    <div class="hero-acts">
+      <a href="#services" class="btn-primary">Explore Services &rarr;</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-n">9+</div><div class="hs-l">Core Services</div></div>
+    <div class="hs-div"></div>
+    <div class="hs"><div class="hs-n">100%</div><div class="hs-l">Safety Focused</div></div>
+    <div class="hs-div"></div>
+    <div class="hs"><div class="hs-n">E-2-E</div><div class="hs-l">Execution</div></div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-t">
+    <span class="ti">Logistics &amp; Shipping</span><span class="ti">Mining Services</span><span class="ti">Civil Works</span>
+    <span class="ti">Heavy Engineering</span><span class="ti">Pipe Lines</span><span class="ti">Roads &amp; Highways</span>
+    <span class="ti">Commercial &amp; Residential</span><span class="ti">Shipping &amp; Transportation</span><span class="ti">Materials Supply</span>
+    <span class="ti">Logistics &amp; Shipping</span><span class="ti">Mining Services</span><span class="ti">Civil Works</span>
+    <span class="ti">Heavy Engineering</span><span class="ti">Pipe Lines</span><span class="ti">Roads &amp; Highways</span>
+    <span class="ti">Commercial &amp; Residential</span><span class="ti">Shipping &amp; Transportation</span><span class="ti">Materials Supply</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-col rvl">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=85" alt="Industrial operations and workforce" loading="lazy">
+      <div class="about-badge"><div class="ab-n">Multi</div><div class="ab-t">Domain Expertise</div></div>
+    </div>
+    <div class="about-cont">
+      <div class="rv">
+        <p class="section-tag">Who We Are</p>
+        <h2 class="section-title">Professionally<br>Managed.<br><em>Results</em> Driven.</h2>
+        <div class="sbar"></div>
+      </div>
+      <p class="about-body rv d2">Eliphas Shipping Services Pvt Ltd is a professionally managed organization delivering integrated solutions across logistics, mining, and civil infrastructure works.<br><br>Our approach combines technical expertise, operational discipline, and a strong commitment to client satisfaction. With a growing footprint and a versatile service portfolio, we support businesses and projects that demand precision, reliability, and accountability.</p>
+      <div class="si-list">
+        <div class="si rv d2">
+          <div class="si-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0b1f3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+          <div class="si-t"><strong>Skilled Workforce &amp; Project Management</strong><p>Experienced teams delivering precise outcomes on every engagement.</p></div>
+        </div>
+        <div class="si rv d3">
+          <div class="si-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0b1f3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <div class="si-t"><strong>Modern Equipment &amp; Operational Systems</strong><p>State-of-the-art tools and frameworks for maximum efficiency.</p></div>
+        </div>
+        <div class="si rv d4">
+          <div class="si-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0b1f3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8.5-8 10C7.5 20.5 4 17 4 12V7l8-4z"/></svg></div>
+          <div class="si-t"><strong>Compliance-Driven, Safety-Focused Culture</strong><p>Rigorous safety standards embedded across all operations.</p></div>
+        </div>
+        <div class="si rv d5">
+          <div class="si-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0b1f3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div class="si-t"><strong>Long-Term Client Partnerships</strong><p>Relationships built on transparency, integrity, and proven results.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="vm-row">
+    <div class="vm-card rv d1"><h3>Our Vision</h3><p>To be a trusted and respected service provider delivering efficient logistics and sustainable infrastructure solutions that contribute to long-term growth for every client and community we serve.</p></div>
+    <div class="vm-card rv d3"><h3>Our Mission</h3><ul><li>Provide dependable, high-quality logistics and infrastructure services</li><li>Execute projects safely, efficiently, and within timelines</li><li>Build lasting relationships through transparency and integrity</li><li>Continuously improve capabilities and service standards</li></ul></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="rv"><p class="section-tag">What We Do</p><h2 class="section-title">Our <em>Core</em> Services</h2><div class="sbar"></div></div>
+  <p class="svc-lead rv d2">Comprehensive solutions spanning logistics, heavy engineering, infrastructure, shipping, and materials supply — executed with professionalism, safety, and accountability at every step.</p>
+  <div class="svc-grid">
+    <div class="svc-card rv d1">
+      <div class="svc-bg"><img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=900&q=85" alt="Cargo shipping containers at port" loading="lazy"></div>
+      <div class="svc-num">01</div>
+      <div class="svc-body">
+        <div class="svc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <h3 class="svc-title">Logistics &amp; Shipping</h3>
+        <p class="svc-desc">Smooth movement of goods with a focus on efficiency, safety, and end-to-end coordination from origin to destination.</p>
+        <div class="svc-tags"><span class="svc-tag">Cargo Transportation</span><span class="svc-tag">Material Handling</span><span class="svc-tag">Loading &amp; Unloading</span><span class="svc-tag">Shipment Support</span><span class="svc-tag">Safety Compliance</span></div>
+      </div><div class="svc-bar"></div>
+    </div>
+    <div class="svc-card rv d2">
+      <div class="svc-bg"><img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=900&q=85" alt="Open pit mining operations" loading="lazy"></div>
+      <div class="svc-num">02</div>
+      <div class="svc-body">
+        <div class="svc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-1-2H5v17h2v-7h5l1 2h7V6h-6zm4 8h-4l-1-2H7V6h5l1 2h5v6z"/></svg></div>
+        <h3 class="svc-title">Mining Services</h3>
+        <p class="svc-desc">Essential support services to mining operations — reliability, safety, and productivity at the forefront of every deployment.</p>
+        <div class="svc-tags"><span class="svc-tag">Operational Support</span><span class="svc-tag">Material Movement</span><span class="svc-tag">Site Assistance</span><span class="svc-tag">Logistics Coordination</span></div>
+      </div><div class="svc-bar"></div>
+    </div>
+    <div class="svc-card rv d3">
+      <div class="svc-bg"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=900&q=85" alt="Large scale civil construction" loading="lazy"></div>
+      <div class="svc-num">03</div>
+      <div class="svc-body">
+        <div class="svc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <h3 class="svc-title">Civil Works</h3>
+        <p class="svc-desc">Durable, well-executed infrastructure solutions across roads, buildings, and critical civil works — on time, every time.</p>
+        <div class="svc-tags"><span class="svc-tag">Road Construction</span><span class="svc-tag">Building Works</span><span class="svc-tag">Site Preparation</span><span class="svc-tag">Renovation</span></div>
+      </div><div class="svc-bar"></div>
+    </div>
+    <div class="svc-card rv d1">
+      <div class="svc-bg"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=85" alt="Heavy engineering manufacturing facility" loading="lazy"></div>
+      <div class="svc-num">04</div>
+      <div class="svc-body">
+        <div class="svc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14M12 2v2M12 20v2M2 12h2M20 12h2"/></svg></div>
+        <h3 class="svc-title">Heavy Engineering</h3>
+        <p class="svc-desc">Manufacturing and supply of IBR-certified Steam Distributors and 30 & 15 KL SS tanks with full automation provisions to store and handle pulp slurry — delivered on time.</p>
+        <div class="svc-tags"><span class="svc-tag">Steam Distributors</span><span class="svc-tag">IBR Certification</span><span class="svc-tag">SS Tanks — 30 &amp; 15 KL</span><span class="svc-tag">Pulp Slurry Handling</span><span class="svc-tag">Full Automation</span></div>
+      </div><div class="svc-bar"></div>
+    </div>
+    <div class="svc-card rv d2">
+      <div class="svc-bg"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=85" alt="Industrial pipeline construction" loading="lazy"></div>
+      <div class="svc-num">05</div>
+      <div class="svc-body">
+        <div class="svc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg></div>
+        <h3 class="svc-title">Pipe Lines</h3>
+        <p class="svc-desc">Fast-tracked pipeline projects undertaken on a war footing basis. Completed within tight 4-month timelines from order acceptance, with works progressing in advanced stages.</p>
+        <div class="svc-tags"><span class="svc-tag">Industrial Pipelines</span><span class="svc-tag">Fast-Track Execution</span><span class="svc-tag">4-Month Delivery</span><span class="svc-tag">On-Site Coordination</span></div>
+      </div><div class="svc-bar"></div>
+    </div>
+    <div class="svc-card rv d3">
+      <div class="svc-bg"><img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=900&q=85" alt="Roads and highways construction" loading="lazy"></div>
+      <div class="svc-num">06</div>
+      <div class="svc-body">
+        <div class="svc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><circle cx="20" cy="16" r="1"/></svg></div>
+        <h3 class="svc-title">Roads &amp; Highways</h3>
+        <p class="svc-desc">Roads make a crucial contribution to economic development and growth, bringing vital social benefits. We deliver durable, well-constructed road infrastructure that lasts.</p>
+        <div class="svc-tags"><span class="svc-tag">Road Construction</span><span class="svc-tag">Highway Development</span><span class="svc-tag">Maintenance &amp; Repair</span><span class="svc-tag">Site Preparation</span></div>
+      </div><div class="svc-bar"></div>
+    </div>
+    <div class="svc-card rv d1">
+      <div class="svc-bg"><img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=85" alt="Commercial and residential building" loading="lazy"></div>
+      <div class="svc-num">07</div>
+      <div class="svc-body">
+        <div class="svc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/><path d="M21 21H3"/></svg></div>
+        <h3 class="svc-title">Commercial &amp; Residential</h3>
+        <p class="svc-desc">Mixed-use projects capturing all three real estate segments — residential, commercial, and retail — advantageous for both developers and buyers alike.</p>
+        <div class="svc-tags"><span class="svc-tag">Mixed-Use Developments</span><span class="svc-tag">Residential Construction</span><span class="svc-tag">Commercial Build-Outs</span><span class="svc-tag">Retail Spaces</span></div>
+      </div><div class="svc-bar"></div>
+    </div>
+    <div class="svc-card rv d2">
+      <div class="svc-bg"><img src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?w=900&q=85" alt="Shipping and vessel port operations" loading="lazy"></div>
+      <div class="svc-num">08</div>
+      <div class="svc-body">
+        <div class="svc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+        <h3 class="svc-title">Shipping &amp; Transportation</h3>
+        <p class="svc-desc">Wide-range vessel agency services with real-time information, ground-level expertise and local knowledge to make every port call as smooth and efficient as possible.</p>
+        <div class="svc-tags"><span class="svc-tag">Vessel Agency Services</span><span class="svc-tag">Port Call Management</span><span class="svc-tag">Cargo Handling</span><span class="svc-tag">Real-Time Coordination</span></div>
+      </div><div class="svc-bar"></div>
+    </div>
+    <div class="svc-card rv d3">
+      <div class="svc-bg"><img src="https://images.unsplash.com/photo-1519861531473-9200262188bf?w=900&q=85" alt="Industrial materials and aggregates supply" loading="lazy"></div>
+      <div class="svc-num">09</div>
+      <div class="svc-body">
+        <div class="svc-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+        <h3 class="svc-title">Materials We Supply</h3>
+        <p class="svc-desc">Comprehensive supply of industrial raw materials and construction aggregates for mining, steel, and infrastructure projects across the region.</p>
+        <div class="svc-tags"><span class="svc-tag">LD &amp; BF Slag</span><span class="svc-tag">Coal &amp; Iron Ore</span><span class="svc-tag">Lime Stone Powder</span><span class="svc-tag">Gravel &amp; Sand</span><span class="svc-tag">Redstone &amp; Blackstone</span><span class="svc-tag">20–80MM Aggregates</span></div>
+      </div><div class="svc-bar"></div>
+    </div>
+  </div>
+  <div class="materials-strip rv">
+    <div class="ms-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      Materials We Supply
+    </div>
+    <div class="ms-items">
+      <span class="ms-item">LD Slag</span><span class="ms-sep">·</span><span class="ms-item">BF Slag</span><span class="ms-sep">·</span>
+      <span class="ms-item">Coal &amp; Iron Ore</span><span class="ms-sep">·</span><span class="ms-item">Lime Stone Powder</span><span class="ms-sep">·</span>
+      <span class="ms-item">Gravel</span><span class="ms-sep">·</span><span class="ms-item">Sand</span><span class="ms-sep">·</span>
+      <span class="ms-item">Redstone</span><span class="ms-sep">·</span><span class="ms-item">Blackstone</span><span class="ms-sep">·</span>
+      <span class="ms-item">20MM · 40MM · 60MM · 80MM Aggregates</span>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<section id="locations">
+  <div class="loc-inner">
+    <div class="rvl">
+      <p class="section-tag light">Operational Presence</p>
+      <h2 class="section-title light">Where We <em>Operate</em></h2>
+      <div class="sbar light"></div>
+      <p class="loc-body">Eliphas Shipping Services Pvt Ltd operates across multiple project locations to efficiently support logistics movements, mining activities, and civil works execution.<br><br>Our strategic presence enables rapid mobilization of resources and strong on-ground coordination for seamless project delivery.</p>
+      <div class="cov-list">
+        <div class="cov-item">
+          <div class="cov-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <div class="cov-t"><h4>Logistics &amp; Shipping Operations</h4><p>Multi-location cargo handling, transportation, and coordination facilities.</p></div>
+        </div>
+        <div class="cov-item">
+          <div class="cov-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="cov-t"><h4>Mining Project Locations</h4><p>On-site presence at active mining zones for continuous operational support.</p></div>
+        </div>
+        <div class="cov-item">
+          <div class="cov-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+          <div class="cov-t"><h4>Civil &amp; Infrastructure Project Sites</h4><p>Road and building execution across key operational territories.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="map-panel rvr">
+      <div class="map-lbl">Operational Network</div>
+      <svg class="map-svg" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
+        <defs><radialGradient id="mg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1a4a7a" stop-opacity="0.25"/><stop offset="100%" stop-color="#1a4a7a" stop-opacity="0"/></radialGradient></defs>
+        <rect width="480" height="360" fill="url(#mg)"/>
+        <g stroke="rgba(255,255,255,0.06)" stroke-width="0.5">
+          <line x1="80" y1="0" x2="80" y2="360"/><line x1="160" y1="0" x2="160" y2="360"/>
+          <line x1="240" y1="0" x2="240" y2="360"/><line x1="320" y1="0" x2="320" y2="360"/>
+          <line x1="400" y1="0" x2="400" y2="360"/><line x1="0" y1="90" x2="480" y2="90"/>
+          <line x1="0" y1="180" x2="480" y2="180"/><line x1="0" y1="270" x2="480" y2="270"/>
+        </g>
+        <path d="M40,60 L130,45 L200,75 L250,55 L310,85 L290,130 L230,150 L170,145 L120,165 L60,130 Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+        <path d="M330,50 L420,40 L460,80 L450,130 L390,145 L340,120 Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+        <path d="M60,220 L180,200 L280,235 L310,295 L240,320 L140,310 L80,280 Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+        <path d="M340,210 L430,195 L470,250 L460,310 L380,320 L340,280 Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+        <path d="M160,100 Q220,165 190,270" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none" stroke-dasharray="6,4"/>
+        <path d="M395,88 Q310,155 190,270" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" fill="none" stroke-dasharray="6,4"/>
+        <path d="M160,100 Q280,75 395,88" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" fill="none" stroke-dasharray="6,4"/>
+        <circle cx="160" cy="100" r="5" fill="rgba(255,255,255,0.9)"/>
+        <circle class="pr" cx="160" cy="100" r="0" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+        <circle class="pr" cx="160" cy="100" r="0" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1" style="animation-delay:.8s"/>
+        <text x="172" y="96" font-family="'Outfit',sans-serif" font-size="8" fill="rgba(255,255,255,0.7)" letter-spacing="1" font-weight="600">LOGISTICS HUB</text>
+        <circle cx="395" cy="88" r="5" fill="rgba(255,255,255,0.9)"/>
+        <circle class="pr" cx="395" cy="88" r="0" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" style="animation-delay:.5s"/>
+        <text x="310" y="75" font-family="'Outfit',sans-serif" font-size="8" fill="rgba(255,255,255,0.7)" letter-spacing="1" font-weight="600">MINING ZONE</text>
+        <circle cx="190" cy="270" r="5" fill="rgba(255,255,255,0.9)"/>
+        <circle class="pr" cx="190" cy="270" r="0" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" style="animation-delay:1.2s"/>
+        <text x="205" y="268" font-family="'Outfit',sans-serif" font-size="8" fill="rgba(255,255,255,0.7)" letter-spacing="1" font-weight="600">CIVIL OPS</text>
+        <g transform="translate(430,310)" opacity="0.5">
+          <circle cx="0" cy="0" r="22" stroke="rgba(255,255,255,0.15)" stroke-width="0.8" fill="none"/>
+          <line x1="0" y1="-22" x2="0" y2="22" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+          <line x1="-22" y1="0" x2="22" y2="0" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+          <polygon points="0,-20 -2.5,-11 0,-14 2.5,-11" fill="rgba(255,255,255,0.6)"/>
+          <text x="0" y="-25" text-anchor="middle" font-family="'Outfit',sans-serif" font-size="7" fill="rgba(255,255,255,0.4)" font-weight="600">N</text>
+        </g>
+      </svg>
+      <div class="map-leg"><div class="li"><div class="ld"></div> Operational Hub</div><div class="li"><div class="ll"></div> Route Connection</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="rv"><p class="section-tag">Why Eliphas</p><h2 class="section-title">Built for <em>Performance.</em></h2><div class="sbar"></div></div>
+  <div class="why-grid">
+    <div class="rvl">
+      <div class="why-img-w">
+        <div class="why-badge"><div class="wb-n">100%</div><div class="wb-t">Safety Focused</div></div>
+        <img class="why-img-m" src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=85" alt="Professional logistics operations" loading="lazy">
+        <img class="why-img-s" src="https://images.unsplash.com/photo-1560472355-536de3962603?w=500&q=85" alt="Business partnership" loading="lazy">
+      </div>
+    </div>
+    <div class="why-feats rvr">
+      <div class="why-feat"><div class="fn2">01</div><div class="ft"><h4>Professional &amp; Experienced Operations Team</h4><p>Seasoned professionals who understand the complexity of logistics, mining, and civil works — delivering measurable outcomes every time.</p></div></div>
+      <div class="why-feat"><div class="fn2">02</div><div class="ft"><h4>End-to-End Project Execution</h4><p>From initial planning to final handover, we manage the complete project lifecycle so you can focus on what matters most.</p></div></div>
+      <div class="why-feat"><div class="fn2">03</div><div class="ft"><h4>Strong Focus on Safety &amp; Compliance</h4><p>Safety is non-negotiable. Every operation follows rigorous compliance standards to protect people, assets, and the environment.</p></div></div>
+      <div class="why-feat"><div class="fn2">04</div><div class="ft"><h4>Timely Delivery &amp; Cost-Effective Solutions</h4><p>We respect timelines and budgets — delivering quality results without compromise on efficiency or value.</p></div></div>
+      <div class="why-feat"><div class="fn2">05</div><div class="ft"><h4>Transparency &amp; Long-Term Partnerships</h4><p>Relationships grounded in integrity and honest communication, earning client trust that extends well beyond individual projects.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="con-inner">
+    <div class="rvl">
+      <p class="section-tag light">Get in Touch</p>
+      <h2 class="section-title light">Partner With <em>Eliphas</em></h2>
+      <div class="sbar light" style="margin-bottom:1.5rem"></div>
+      <p class="con-tl">For business inquiries, project discussions, or service requests, connect with Eliphas Shipping Services Pvt Ltd. Our team is available Monday through Saturday to support your needs.</p>
+      <div class="con-det">
+        <div class="ci"><div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="ci-b"><strong>Office Address</strong><span>[Enter Address]</span></div></div>
+        <div class="ci"><div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a2 2 0 011.99-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 15a16 16 0 006.09 6.09l1.27-.95a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 22.48v-5.56z"/></svg></div><div class="ci-b"><strong>Phone</strong><span>[Enter Contact Number]</span></div></div>
+        <div class="ci"><div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="ci-b"><strong>Email</strong><span>[Enter Email Address]</span></div></div>
+        <div class="ci"><div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="ci-b"><strong>Working Hours</strong><span>Monday – Saturday | [Enter Timings]</span></div></div>
+      </div>
+      <div class="partner-blk">
+        <p>Reliable Execution.<br>Professional Service.<br>Proven Results.</p>
+        <small>— Eliphas Shipping Services Pvt Ltd</small>
+      </div>
+    </div>
+    <div class="form-wrap rvr">
+      <h3 class="form-title">Send Us a Message</h3>
+      <div class="form-row">
+        <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name"></div>
+        <div class="fg"><label>Company</label><input type="text" placeholder="Company name"></div>
+      </div>
+      <div class="form-row">
+        <div class="fg"><label>Email Address</label><input type="email" placeholder="your@email.com"></div>
+        <div class="fg"><label>Phone Number</label><input type="tel" placeholder="+91 00000 00000"></div>
+      </div>
+      <div class="fg">
+        <label>Service of Interest</label>
+        <select><option value="">Select a service...</option><option>Logistics &amp; Shipping</option><option>Mining Services</option><option>Civil Works</option><option>Heavy Engineering</option><option>Pipe Lines</option><option>Roads &amp; Highways</option><option>Commercial &amp; Residential Projects</option><option>Shipping &amp; Transportation</option><option>Materials Supply</option><option>Multiple Services</option></select>
+      </div>
+      <div class="fg"><label>Your Message</label><textarea placeholder="Describe your project, requirements, or inquiry in detail..."></textarea></div>
+      <button class="form-sub" id="fsub">Send Inquiry &rarr;</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div class="fb"><img src="Rectangle.png" alt="Eliphas" class="footer-logo"><div class="fs" style="margin-top:.8rem">Eliphas Shipping Services Pvt Ltd</div><p>A reliable, multi-domain service provider delivering excellence across Logistics, Shipping, Mining, and Civil Works. Driven by operational excellence, safety, and trust.</p></div>
+    <div class="fc"><h5>Navigation</h5><ul><li><a href="#hero">Home</a></li><li><a href="#about">About Us</a></li><li><a href="#services">Services</a></li><li><a href="#locations">Locations</a></li><li><a href="#why">Why Eliphas</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    <div class="fc"><h5>Services</h5><ul><li><a href="#services">Logistics &amp; Shipping</a></li><li><a href="#services">Mining Services</a></li><li><a href="#services">Civil Works</a></li><li><a href="#services">Heavy Engineering</a></li><li><a href="#services">Pipe Lines</a></li><li><a href="#services">Roads &amp; Highways</a></li><li><a href="#services">Commercial &amp; Residential</a></li><li><a href="#services">Shipping &amp; Transportation</a></li><li><a href="#services">Materials Supply</a></li></ul></div>
+    <div class="fc"><h5>Industries</h5><ul><li><a href="#">Logistics</a></li><li><a href="#">Infrastructure</a></li><li><a href="#">Mining</a></li><li><a href="#">Construction</a></li></ul></div>
+  </div>
+  <div class="ft-btm">
+    <span>&copy; 2025 <strong>Eliphas Shipping Services Pvt Ltd</strong>. All rights reserved.</span>
+    <span>Moving Cargo. Building Infrastructure. <strong>Delivering Trust.</strong></span>
+  </div>
+</footer>
+
+<script>
+// ===== SCROLL REVEAL =====
+const io = new IntersectionObserver(e => e.forEach(x => {
+  if (x.isIntersecting) x.target.classList.add('in');
+}), {threshold:.1});
+document.querySelectorAll('.rv,.rvl,.rvr').forEach(el => io.observe(el));
+
+// ===== TOP BAR =====
+const topBar = document.getElementById('topBar');
+const mainNav = document.getElementById('mainNav');
+
+// Show bar after short delay for polish
+setTimeout(() => topBar.classList.add('tb-visible'), 300);
+
+document.getElementById('tbClose').addEventListener('click', () => {
+  topBar.classList.remove('tb-visible');
+  mainNav.classList.add('bar-gone');
+  mainNav.style.top = '0';
+});
+
+// ===== NAV SCROLL =====
+window.addEventListener('scroll', () => {
+  mainNav.classList.toggle('sc', scrollY > 60);
+});
+
+// ===== HAMBURGER / MOBILE NAV =====
+const hamburger   = document.getElementById('hamburger');
+const mobNav      = document.getElementById('mobNav');
+const mobOverlay  = document.getElementById('mobOverlay');
+const mobNavX     = document.getElementById('mobNavX');
+
+function openNav() {
+  mobNav.classList.add('open');
+  mobNav.setAttribute('aria-hidden', 'false');
+  mobOverlay.classList.add('open');
+  hamburger.classList.add('open');
+  hamburger.setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden';
+}
+function closeNav() {
+  mobNav.classList.remove('open');
+  mobNav.setAttribute('aria-hidden', 'true');
+  mobOverlay.classList.remove('open');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+hamburger.addEventListener('click', () => mobNav.classList.contains('open') ? closeNav() : openNav());
+mobNavX.addEventListener('click', closeNav);
+mobOverlay.addEventListener('click', closeNav);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+
+// Close mobile nav on link click
+document.querySelectorAll('.mob-lk').forEach(a => a.addEventListener('click', closeNav));
+
+// ===== FORM SUBMIT =====
+document.getElementById('fsub').addEventListener('click', function() {
+  this.textContent = '✓ Message Sent — We\'ll Be in Touch!';
+  this.style.background = '#1a5fba';
+  this.disabled = true;
+});
+</script>
+</body>
+</html>
