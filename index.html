@@ -287,14 +287,14 @@ nav.sc .hamburger span{background:var(--navy)}
 
 /* ===== ABOUT ===== */
 #about{background:#f9f9f9}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;min-height:88vh}
-.about-img-col{position:relative;overflow:hidden}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;min-height:auto;align-items:stretch;gap:0}
+.about-img-col{position:relative;overflow:hidden;min-height:550px}
 .about-img-col img{width:100%;height:100%;object-fit:cover;transition:transform 8s ease;display:block}
 .about-img-col:hover img{transform:scale(1.03)}
-.about-badge{position:absolute;bottom:3rem;left:3rem;z-index:2;background:var(--navy);color:var(--white);padding:1.3rem 1.8rem;border-radius:6px;box-shadow:0 16px 48px rgba(0,0,0,.5)}
-.ab-n{font-family:'Playfair Display',serif;font-size:2rem;line-height:1;font-weight:700}
-.ab-t{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;margin-top:.25rem;color:rgba(255,255,255,.65);font-weight:500}
-.about-cont{padding:7rem 5rem;display:flex;flex-direction:column;justify-content:center;background:var(--off-white)}
+.about-badge{position:absolute;bottom:2rem;left:2rem;z-index:2;background:var(--navy);color:var(--white);padding:1.1rem 1.5rem;border-radius:6px;box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.ab-n{font-family:'Playfair Display',serif;font-size:1.6rem;line-height:1;font-weight:700}
+.ab-t{font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;margin-top:.25rem;color:rgba(255,255,255,.65);font-weight:500}
+.about-cont{padding:3.5rem 4rem;display:flex;flex-direction:column;justify-content:center;background:var(--off-white)}
 .about-body{font-size:.95rem;font-weight:300;line-height:1.95;color:var(--gray-600);margin:1.8rem 0 2.5rem}
 .si-list{display:flex;flex-direction:column;gap:.7rem}
 .si{display:flex;align-items:flex-start;gap:1.2rem;padding:1.2rem 1.5rem;background:var(--white);border:1px solid var(--gray-200);border-left:3px solid var(--navy);transition:all .3s;border-radius:0 6px 6px 0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
@@ -405,7 +405,7 @@ nav.sc .hamburger span{background:var(--navy)}
 .partner-blk p{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--white);line-height:1.3;font-weight:600}
 .partner-blk small{display:block;margin-top:.6rem;font-size:.72rem;color:rgba(255,255,255,.4);letter-spacing:.1em}
 .form-wrap{background:var(--white);border-radius:10px;padding:3.5rem;box-shadow:0 32px 80px rgba(0,0,0,.25)}
-.form-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--navy);margin-bottom:2rem;font-weight:700}
+.form-title{font-family:'Playfair Display',serif;font-size:2rem;color:white;margin-bottom:2rem;font-weight:700}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .fg{margin-bottom:1.2rem}
 .fg label{display:block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-400);margin-bottom:.5rem;font-weight:600}
@@ -437,7 +437,7 @@ footer{background:#091d45;border-top:1px solid rgba(255,255,255,.06)}
   .nav-ul,.nav-right{display:none}
   .hamburger{display:flex}
   .hero-content{padding:0 1.5rem 5rem;padding-top:9rem}.hero-stats{display:none}
-  .about-grid{grid-template-columns:1fr}.about-img-col{min-height:55vw}.about-cont{padding:4rem 2rem}
+  .about-grid{grid-template-columns:1fr}.about-img-col{min-height:400px}.about-cont{padding:3rem 1.5rem}
   .vm-row{grid-template-columns:1fr}.vm-card{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);padding:3rem 2rem}
   #services{padding:5rem 1.5rem}.svc-grid{grid-template-columns:1fr}.civil-sub{grid-template-columns:1fr;grid-column:span 1}
   #locations{padding:5rem 1.5rem}.loc-inner{grid-template-columns:1fr;gap:3rem}
@@ -448,6 +448,8 @@ footer{background:#091d45;border-top:1px solid rgba(255,255,255,.06)}
   .top-bar-inner .tb-extra{display:none}
 }
 @media(max-width:480px){
+  .about-img-col{min-height:300px}.about-cont{padding:2rem 1.2rem}
+  .ab-n{font-size:1.2rem}
   .ft-top{grid-template-columns:1fr}
 }
 </style>
@@ -988,6 +990,7 @@ footer{background:#091d45;border-top:1px solid rgba(255,255,255,.06)}
   border:2px solid transparent;
   background:linear-gradient(135deg,var(--teal),transparent,var(--teal-light)) border-box;
   -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+  mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite:destination-out;
   mask-composite:exclude;
   opacity:0;transition:opacity .4s;
@@ -1091,6 +1094,7 @@ footer{background:#091d45;border-top:1px solid rgba(255,255,255,.06)}
   .board-values{grid-template-columns:1fr 1fr}
   .board-stats-wrap{grid-template-columns:1fr 1fr}
 }
+
 </style>
 
 <!-- BOARD OF DIRECTORS -->
@@ -1288,12 +1292,10 @@ footer{background:#091d45;border-top:1px solid rgba(255,255,255,.06)}
         <div class="ci"><div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5M16 4v5"/></svg></div><div class="ci-b"><strong>GST Number</strong><span>37AAICE3890P1ZU</span></div></div>
         <div class="ci"><div class="ci-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="ci-b"><strong>Working Hours</strong><span>Monday – Saturday | 9:00 AM – 6:00 PM</span></div></div>
       </div>
-      <div class="partner-blk">
-        <p>Reliable Execution.<br>Professional Service.<br>Proven Results.</p>
-        <small>— Eliphas Shipping Services Pvt Ltd</small>
-      </div>
+      
     </div>
-    <div class="form-wrap rvr">
+   <section class="contact2">
+    <div class="form-wraprvr">
       <h3 class="form-title">Send Us a Message</h3>
       <div class="form-row">
         <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name"></div>
@@ -1310,7 +1312,13 @@ footer{background:#091d45;border-top:1px solid rgba(255,255,255,.06)}
       <div class="fg"><label>Your Message</label><textarea placeholder="Describe your project, requirements, or inquiry in detail..."></textarea></div>
       <button class="form-sub" id="fsub">Send Inquiry &rarr;</button>
     </div>
+    <div class="partner-blk">
+        <p>Reliable Execution.<br>Professional Service.<br>Proven Results.</p>
+        <small>— Eliphas Shipping Services Pvt Ltd</small>
+      </div>
   </div>
+</section>
+  
 </section>
 
 <!-- FOOTER -->
